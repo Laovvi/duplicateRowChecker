@@ -7,7 +7,6 @@
 # V 0.1
 
 import os
-import warnings
 import numpy as np
 import pandas as pd
 from config.definitions import ROOT_DIR
@@ -41,13 +40,21 @@ else:
     for filename in filelist[count:]:
         if filename.endswith('.xlsx'):
             df_temp = pd.read_excel(os.path.join(ROOT_DIR,"Folder1",str(filename)))
+            if list(df_temp) != list(df1):
+                print("Column headers must be the same for all files.")
+                print("Please check",str(filename),"in Folder1.")
+                quit()
             df1 = df1.append(df_temp)
         elif filename.endswith('.csv'):
             df_temp = pd.read_csv(os.path.join(ROOT_DIR,"Folder1",str(filename)))
+            if list(df_temp) != list(df1):
+                print("Column headers must be the same for all files.")
+                print("Please check",str(filename),"in Folder1.")
+                quit()
             df1 = df1.append(df_temp)
         else:
             pass
-print("Folder1 loaded.")
+print("Folder1 loaded successfully.")
 
 # Creates dataframe df2 from first csv or xlsx file in Folder2 and appends data from any additional csv or xlsx files in Folder1
 filelist = os.listdir(os.path.join(ROOT_DIR,"Folder2"))
@@ -73,10 +80,18 @@ else:
     for filename in filelist[count:]:
         if filename.endswith('.xlsx'):
             df_temp = pd.read_excel(os.path.join(ROOT_DIR,"Folder2",str(filename)))
+            if list(df_temp) != list(df2):
+                print("Column headers must be the same for all files.")
+                print("Please check",str(filename),"in Folder2.")
+                quit()
             df2 = df2.append(df_temp)
         elif filename.endswith('.csv'):
             df_temp = pd.read_csv(os.path.join(ROOT_DIR,"Folder2",str(filename)))
+            if list(df_temp) != list(df2):
+                print("Column headers must be the same for all files.")
+                print("Please check",str(filename),"in Folder2.")
+                quit()
             df2 = df2.append(df_temp)
         else:
             pass
-print("Folder2 loaded.")
+print("Folder2 loaded successfully.")
