@@ -1,0 +1,3 @@
+# Ignore csv and xlsx files to ensure data is not accidentally committed.
+*.csv
+*.xlsx
