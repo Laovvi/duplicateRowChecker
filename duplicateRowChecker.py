@@ -98,7 +98,9 @@ else:
             pass
 print("Folder2 loaded successfully.")
 
+# Convert each value in df1 and df2 to strings
 df1 = df1.astype('str')
+df2 = df2.astype('str')
 
 # Create and populate Concat column in df1 and df2. Values will act as unique identifiers to compare
 counter = 0
@@ -111,3 +113,18 @@ df2['Concat'] = ""
 for i in df2['Concat']:
     df2.loc[df2.index[counter],'Concat'] = str(df2.loc[df2.index[counter],"1"]) + str(df2.loc[df2.index[counter],"2"]) + str(df2.loc[df2.index[counter],"3"])    
     counter += 1
+
+# init xlsx file with pages for rows that exist in one df but not the other and vice versa
+
+# Check if each value in df1["Concat"] is in df2["Concat"]. If a value is not, it is added to df_temp
+counter = 0
+df_temp = pd.DataFrame(columns = list(df1.columns))
+for i in df1['Concat']:
+    if i in list(df2['Concat']):
+        counter += 1
+    else:
+        df_temp = pd.concat([df_temp, df1[counter]], axis=1)
+        counter += 1
+
+# 
+
