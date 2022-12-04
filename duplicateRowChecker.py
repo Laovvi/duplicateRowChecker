@@ -1,8 +1,6 @@
-# Python script which takes all csv or xlsx files in two folders and checks if rows exist in one folder but not the other (and vice versa), 
-# with the option to create either: 
-# a) one csv file which containing all duplicate rows, or 
-# b) two csv files which contain all unique rows in each folder, or
-# c) no files.
+# Python script which takes all csv or xlsx files in two folders and checks if rows exist in one folder but not the other (and vice versa). 
+# An .xlsx is exported which contains a sheet of rows in Folder1 files but not in Folder2 files, a sheet with rows in Folder2 files but not in Folder1 files, 
+# and a sheet with rows in both Folder1 and Folder2 files.
 
 # V 0.1
 
