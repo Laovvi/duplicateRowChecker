@@ -114,17 +114,35 @@ for i in df2['Concat']:
     df2.loc[df2.index[counter],'Concat'] = str(df2.loc[df2.index[counter],"1"]) + str(df2.loc[df2.index[counter],"2"]) + str(df2.loc[df2.index[counter],"3"])    
     counter += 1
 
-# init xlsx file with pages for rows that exist in one df but not the other and vice versa
-
-# Check if each value in df1["Concat"] is in df2["Concat"]. If a value is not, it is added to df_temp
+# Check if each value in df1["Concat"] is in df2["Concat"]. If so, row is added to df_rows_in_both. If a value is not, it is added to df_rows_in_df1_not_df2
 counter = 0
-df_temp = pd.DataFrame(columns = list(df1.columns))
+df_rows_in_df1_not_df2 = pd.DataFrame(columns = list(df1.columns))
+df_rows_in_both = pd.DataFrame(columns = list(df1.columns))
 for i in df1['Concat']:
     if i in list(df2['Concat']):
+        df_rows_in_both = pd.concat([df_rows_in_both,df1[counter]],axis=1)
         counter += 1
     else:
-        df_temp = pd.concat([df_temp, df1[counter]], axis=1)
+        df_rows_in_df1_not_df2 = pd.concat([df_rows_in_df1_not_df2, df1[counter]], axis=1)
         counter += 1
 
-# 
+# Check if each value in df2["Concat"] is in df1["Concat"]. If a value is not, it is added to df_rows_in_df2_not_df1
+counter = 0
+df_rows_in_df2_not_df1 = pd.DataFrame(columns = list(df1.columns))
+for i in df2['Concat']:
+    if i in list(df1['Concat']):
+        counter += 1
+    else:
+        df_rows_in_df2_not_df1 = pd.concat([df_rows_in_df2_not_df1, df2[counter]], axis=1)
+        counter += 1
 
+del df_rows_in_both['Concat']
+del df_rows_in_df1_not_df2['Concat']
+del df_rows_in_df2_not_df1['Concat']
+
+# init xlsx file with pages for rows that exist in one df but not the other and vice versa and rows that exist in both sets of files
+df_rows_in_df1_not_df2.to_excel((os.path.join(ROOT_DIR,"Results")),sheet_name="In Folder1, Not in Folder2")
+df_rows_in_df1_not_df2.to_excel((os.path.join(ROOT_DIR,"Results")),sheet_name="In Folder2, Not in Folder1")
+df_rows_in_both.to_excel((os.path.join(ROOT_DIR,"Results")),sheet_name="In both Folder1 and Folder2")
+
+print("Program completed successfully.")
